@@ -4,6 +4,10 @@
   <% @tasks.each do |task| %>
     <li>
       <%= link_to task.title, task %>
+      <%# todo display this like "4 days from now" and "3 hours from now" %>
+      <%= task.due.strftime("%B %d %Y, %l:%M%P") %> 
+      <%# todo maybe diff colours for the priority? %>
+      <%= task.priority %>
     </li>
   <% end %>
 </ul>
