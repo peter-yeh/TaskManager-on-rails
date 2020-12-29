@@ -9,7 +9,7 @@ Name: Yeh Yu Chun
 
 Matriculation no.: A0199769W
 
-Call these commands to ensure you have them installed before starting the app
+Call these commands to ensure you have them installed
 
 `ruby --version`
 
@@ -21,6 +21,6 @@ Call these commands to ensure you have them installed before starting the app
 
 `rails --version`
 
-Finally, 
-run `rails server` in the `TaskManager` folder and 
-go to http://localhost:3000/ to use the app
+Run `rails server` in the `TaskManager` folder
+
+Go to http://localhost:3000/ to view and use the app
