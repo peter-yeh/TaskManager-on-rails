@@ -1,6 +1,9 @@
 # TaskManager-on-rails
 
-A Computing for Voluntary Welfare Organisations (CVWO) AY2020/21 assignment to learn how to build up a good web development foundation.
+My first web based app written with ruby on rails.
+
+This is a basic web based app to manage tasks which could persist between sessions.
+
 
 Name: Yeh Yu Chun
 
