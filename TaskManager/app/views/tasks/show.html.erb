@@ -1,0 +1,20 @@
+<%# the UI to view each tasks %>
+
+<h1>Title of task: <%= @task.title %></h1>
+
+<p>Other description: <%= @task.body %></p>
+
+<p>Priority: <%= @task.priority %></p>
+
+<p>Due date: <%= @task.due.strftime("%B %d %Y, %l:%M%P") %></p>
+
+<p>Tag: <%= @task.tag %></p>
+
+<p> Date created: <%= @task.created_at.strftime("%B %d %Y, %l:%M%P") %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_task_path(@task) %></li>
+  <li><%= link_to "Destroy", task_path(@task),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>

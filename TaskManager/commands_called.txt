@@ -1,0 +1,7 @@
+rails new TaskManager
+ruby bin/rails generate controller Containers index --skip-routes
+ruby bin/rails generate model Container name:string
+ruby bin/rails db:migrate
+ruby bin/rails generate model Task title:string body:text tag:text due:datetime priority:integer container:references
+
+t = Task.new(title:"First task", body:"body of first task", tag:"tag of first task", due:"2020-12-29 11:12:23", priority:"2")

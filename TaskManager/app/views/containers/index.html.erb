@@ -1,0 +1,9 @@
+<h1>Task Manager</h1>
+
+<ul>
+  <% @containers.each do |container| %>
+    <li>
+      <%= link_to container.name, container %>
+    </li>
+  <% end %>
+</ul>

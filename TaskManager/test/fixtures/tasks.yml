@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  body: MyText
+  container: one
+  tag: MyText
+  due: 2020-12-26 10:50:30
+  priority: 1
+
+two:
+  title: MyString
+  body: MyText
+  container: two
+  tag: MyText
+  due: 2020-12-26 10:50:30
+  priority: 1
