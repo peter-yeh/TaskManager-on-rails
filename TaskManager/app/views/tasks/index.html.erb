@@ -1,3 +1,5 @@
+<%# This appears in the home page %>
+
 <h1>Task Manager</h1>
 
 <% 
@@ -18,14 +20,16 @@
 
 <table class="pretty">
   <tr>
-    <th><%= link_to "Title", :sort => "title" %></th>
-    <th><%= link_to "Due", :sort => "due" %></th>
-    <th><%= link_to "Priority", :sort => "priority" %></th>
-    <th><%= link_to "Body", :sort => "body" %></th>
-    <th><%= link_to "Tag", :sort => "tag" %></th>
-    <th><%= link_to "Created at", :sort => "created_at" %></th>
+    <th><%= sortable "title" %></th>
+    <th><%= sortable "due" %></th>
+    <th><%= sortable "priority" %></th>
+    <th><%= sortable "body" %></th>
+    <th><%= sortable "tag" %></th>
+    <th><%= sortable "created_at" %></th>
   </tr>
+
   <% for task in @tasks %>
+  
   <tr>
     <td><%= link_to task.title, task %></td>
     <td><%= task.due.strftime("%l:%M%P") %></td>
