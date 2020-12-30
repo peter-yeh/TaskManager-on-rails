@@ -4,7 +4,6 @@
     <%= form.label :title %><br>
     <%= form.text_field :title %>
     <%= @task.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
     <% end %>
   </div>
   <br>
@@ -12,9 +11,6 @@
   <div>
     <%= form.label :body %><br>
     <%= form.text_area :body %>
-    <%= @task.errors.full_messages_for(:body).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
   </div>
   <br>
 
@@ -23,7 +19,6 @@
     <%= form.label :due %><br>
     <%= form.datetime_select :due %>
     <%= @task.errors.full_messages_for(:due).each do |message| %>
-      <div><%= message %></div>
     <% end %>
   </div>
   <br>
@@ -32,7 +27,6 @@
     <%= form.label :priority %><br>
     <%= form.collection_radio_buttons :priority, ["High", "Medium", "Low"], :to_s, :to_s %>
     <%= @task.errors.full_messages_for(:priority).each do |message| %>
-      <div><%= message %></div>
     <% end %>
   </div>
   <br>
@@ -40,9 +34,6 @@
   <div>
     <%= form.label :tag %><br>
     <%= form.text_area :tag %>
-    <%= @task.errors.full_messages_for(:tag).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
   </div>
   <br>
 
