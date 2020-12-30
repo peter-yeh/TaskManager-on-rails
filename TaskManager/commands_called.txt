@@ -9,3 +9,9 @@ t = Task.new(title:"First task", body:"body of first task", tag:"tag of first ta
 http://guides.rubyonrails.org/getting_started.html
 
 http://railscasts.com/episodes/228-sortable-table-columns?view=asciicast // Sort table tutorial
+
+ruby bin/rails generate controller Task index --skip-routes
+ruby bin/rails generate model Task name:string description:string due:datetime priority:integer tag:string is_done:boolean
+ruby bin/rails db:migrate
+
+t.boolean :is_done, default: false
