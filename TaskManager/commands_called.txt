@@ -5,3 +5,7 @@ ruby bin/rails db:migrate
 ruby bin/rails generate model Task title:string body:text tag:text due:datetime priority:integer container:references
 
 t = Task.new(title:"First task", body:"body of first task", tag:"tag of first task", due:"2020-12-29 11:12:23", priority:"2")
+
+http://guides.rubyonrails.org/getting_started.html
+
+http://railscasts.com/episodes/228-sortable-table-columns?view=asciicast // Sort table tutorial
