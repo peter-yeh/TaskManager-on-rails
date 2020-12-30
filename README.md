@@ -11,18 +11,18 @@ Matriculation no.: A0199769W
 
 ## Getting started
 
-Call these commands to ensure you have them installed
+1. Call these commands to ensure they are properly installed
 
-`ruby --version`
+      `ruby --version`
 
-`sqlite3 --version`
+      `sqlite3 --version`
 
-`node --version`
+      `node --version`
 
-`yarn --version`
+      `yarn --version`
 
-`rails --version`
+      `rails --version`
 
-Run `rails server` in the `TaskManager` folder
+1. Run `rails server` in the `TaskManager` folder
 
-Go to http://localhost:3000/ to view and use the app
+1. Go to http://localhost:3000/ to view and use the app
