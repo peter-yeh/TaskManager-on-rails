@@ -11,7 +11,7 @@ Matriculation no.: A0199769W
 
 ## Getting started
 
-1. Call these commands to ensure they are properly installed
+1. Call these commands in your terminal to ensure they are properly installed
 
       `ruby --version`
 
