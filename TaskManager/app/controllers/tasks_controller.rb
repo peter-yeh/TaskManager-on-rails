@@ -3,6 +3,7 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.order(sort_column + ' ' + sort_direction)
+    # @tasks = Task.search(params[:search])
   end
 
   def show
@@ -50,6 +51,13 @@ class TasksController < ApplicationController
     @task.destroy
 
     redirect_to root_path
+  end
+
+  def search
+    keyword = params[:input]
+    task = Task.where("title LIKE ?", "%#{keyword}%")
+    @tasks = task.order(sort_column + ' ' + sort_direction)
+
   end
 
   private
