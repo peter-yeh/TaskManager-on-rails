@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   root "tasks#index"
 
+  get "/search", to: "tasks#search"
+
   resources :tasks
-  # resources :containers do
-  #   resources :tasks
-  # end
 
 end
