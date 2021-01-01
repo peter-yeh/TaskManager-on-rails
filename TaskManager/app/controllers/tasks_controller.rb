@@ -3,7 +3,6 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.order(sort_column + ' ' + sort_direction)
-    # @tasks = Task.search(params[:search])
   end
 
   def show
@@ -55,7 +54,9 @@ class TasksController < ApplicationController
 
   def search
     keyword = params[:input]
-    task = Task.where("title LIKE ?", "%#{keyword}%")
+    # task = Task.where("title LIKE :q OR priority LIKE :q", q: "%#{keyword}%")
+    task = Task.where("title LIKE :q OR due LIKE :q OR priority LIKE :q OR body LIKE :q OR tag LIKE :q OR created_at LIKE :q", q: "%#{keyword}%")
+
     @tasks = task.order(sort_column + ' ' + sort_direction)
 
   end
