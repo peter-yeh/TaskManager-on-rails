@@ -10,20 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_28_035745) do
-
-  create_table "containers", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
+ActiveRecord::Schema.define(version: 2021_01_02_134342) do
 
   create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.text "body"
-    t.text "tag"
+    t.string "name"
+    t.string "description"
     t.datetime "due"
     t.integer "priority"
+    t.string "tag"
+    t.boolean "is_done"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

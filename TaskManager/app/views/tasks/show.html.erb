@@ -1,8 +1,8 @@
 <%# This appears in each tasks page %>
 
-<h1>Task: <%= @task.title %></h1>
+<h1>Task: <%= @task.name %></h1>
 
-<p>Other description: <%= @task.body %></p>
+<p>Other description: <%= @task.description %></p>
 
 <p>Priority: <%= @task.priority %></p>
 
@@ -10,7 +10,9 @@
 
 <p>Tag: <%= @task.tag %></p>
 
-<p> Date created: <%= @task.created_at.strftime("%B %d %Y, %l:%M%P") %></p>
+<p>Date created: <%= @task.created_at.strftime("%B %d %Y, %l:%M%P") %></p>
+
+<p>Is done: <%= @task.is_done %></p>
 
 <ul>
   <li><%= link_to "Edit", edit_task_path(@task) %></li>

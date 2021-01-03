@@ -1,16 +1,16 @@
 <%= form_with model: @task do |form| %>
 
   <div>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-    <%= @task.errors.full_messages_for(:title).each do |message| %>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+    <%= @task.errors.full_messages_for(:name).each do |message| %>
     <% end %>
   </div>
   <br>
 
   <div>
-    <%= form.label :body %><br>
-    <%= form.text_area :body %>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
   </div>
   <br>
 
@@ -34,6 +34,14 @@
   <div>
     <%= form.label :tag %><br>
     <%= form.text_area :tag %>
+  </div>
+  <br>
+
+  <div>
+    <%= form.radio_button :is_done, true %>
+    <%= form.label :is_done, "True", :value => true %>
+    <%= form.radio_button :is_done, false, :checked => true %>
+    <%= form.label :is_done, "False", :value => false %>
   </div>
   <br>
 

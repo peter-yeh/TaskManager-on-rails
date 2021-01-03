@@ -25,8 +25,8 @@ class TasksController < ApplicationController
       print "\n\nTask cannot be saved!!!\n\n"
     end
 
-    print "The task title is: "
-    print @task.priority
+    print "The task isdone: "
+    print @task.is_done
     print "\n\n\n"
 
   end
@@ -54,8 +54,7 @@ class TasksController < ApplicationController
 
   def search
     keyword = params[:input]
-    # task = Task.where("title LIKE :q OR priority LIKE :q", q: "%#{keyword}%")
-    task = Task.where("title LIKE :q OR due LIKE :q OR priority LIKE :q OR body LIKE :q OR tag LIKE :q OR created_at LIKE :q", q: "%#{keyword}%")
+    task = Task.where("name LIKE :q OR due LIKE :q OR priority LIKE :q OR description LIKE :q OR tag LIKE :q OR created_at LIKE :q", q: "%#{keyword}%")
 
     @tasks = task.order(sort_column + ' ' + sort_direction)
 
@@ -63,11 +62,11 @@ class TasksController < ApplicationController
 
   private
     def task_params
-      params.require(:task).permit(:title, :body, :due, :priority, :tag)
+      params.require(:task).permit(:name, :description, :due, :priority, :tag, :is_done)
     end
 
     def sort_column
-      Task.column_names.include?(params[:sort]) ? params[:sort] : "title"
+      Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
     end
     
     def sort_direction

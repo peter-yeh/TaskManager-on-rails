@@ -8,7 +8,7 @@
 <ul>
   <% @tasks.each do |task| %>
     <li>
-      <%= link_to task.title, task %>
+      <%= link_to task.name, task %>
       <%# todo display this like "4 days from now" and "3 hours from now" %>
       <%= task.due.strftime("%B %d %Y, %l:%M%P") %> 
       <%# todo maybe diff colours for the priority? %>
@@ -32,23 +32,25 @@
 
 <table class="pretty">
   <tr>
-    <th><%= sortable "title" %></th>
+    <th><%= sortable "name" %></th>
     <th><%= sortable "due" %></th>
     <th><%= sortable "priority" %></th>
-    <th><%= sortable "body" %></th>
+    <th><%= sortable "description" %></th>
     <th><%= sortable "tag" %></th>
     <th><%= sortable "created_at" %></th>
+    <th><%= sortable "is_done" %></th>
   </tr>
 
   <% for task in @tasks %>
   
   <tr>
-    <td><%= link_to task.title, task %></td>
+    <td><%= link_to task.name, task %></td>
     <td><%= task.due.strftime("%l:%M%P") %></td>
     <td><%= task.priority %></td>
-    <td><%= task.body %></td>
+    <td><%= task.description %></td>
     <td><%= task.tag %></td>
     <td><%= task.created_at.strftime("%l:%M%P") %></td>
+    <td><%= task.is_done %></td>
   </tr>
   <% end %>
 </table>
