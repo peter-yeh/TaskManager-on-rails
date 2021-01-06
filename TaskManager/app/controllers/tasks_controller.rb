@@ -3,7 +3,8 @@ class TasksController < ApplicationController
 
   def index
     # @tasks = Task.order(sort_column + ' ' + sort_direction)
-    render json: Task.all
+    @tasks = Task.all.to_json
+    # render json: Task.all
 
   end
 
