@@ -2,7 +2,9 @@ class TasksController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    @tasks = Task.order(sort_column + ' ' + sort_direction)
+    # @tasks = Task.order(sort_column + ' ' + sort_direction)
+    render json: Task.all
+
   end
 
   def show
