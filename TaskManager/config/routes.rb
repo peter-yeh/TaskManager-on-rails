@@ -3,10 +3,10 @@ Rails.application.routes.draw do
 
   # get "/search", to: "tasks#search"
 
-  # resources :tasks
+  resources :tasks
 
-  namespace :api do
-    resources :tasks
-  end
+  # namespace :api do
+  #   resources :tasks
+  # end
 
 end
