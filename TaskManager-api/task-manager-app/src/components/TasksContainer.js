@@ -25,7 +25,7 @@ class TasksContainer extends Component {
 
   createTask = (e) => {
     if (e.key === 'Enter') {
-      axios.post('/api/v1/tasks', { task: { title: e.target.value } })
+      axios.post('/api/v1/tasks', { task: { name: e.target.value } })
         .then(response => {
           const tasks = update(this.state.tasks, {
             $splice: [[0, 0, response.data]]
