@@ -1,0 +1,47 @@
+// To rebuilt the app
+rails new TaskManager
+ruby bin/rails generate controller Tasks index --skip-routes
+ruby bin/rails generate model Task name:string description:string due:datetime priority:integer tag:string is_done:boolean
+ruby bin/rails db:migrate
+
+1. copy over controller
+2. copy over model
+3. copy views folder
+4. change routes.rb
+5. copy over helpers folder
+
+// To check database
+t = Task.new(name:"First task", description:"body of first task", tag:"tag of first task", due:"2020-12-29 11:12:23", priority:2, is_done: false)
+t.save // should return true
+
+// seeds.rb
+Task.create(name:"First task", description:"body of first task", tag:"tag of first task", due:"2020-12-29 11:12:23", priority:2, done: false)
+Task.create(name:"Second task", description:"body of second task", tag:"tag of second task", due:"2021-12-29 11:12:23", priority:3, done: true)
+
+
+// Tutorials used
+http://guides.rubyonrails.org/getting_started.html
+http://railscasts.com/episodes/228-sortable-table-columns?view=asciicast // Sort table tutorial
+https://pamit.medium.com/todo-list-building-a-react-app-with-rails-api-7a3027907665
+
+
+Immutability makes complex features much easier to implement. Later in this tutorial, we will implement a “time travel” feature that allows us to review the tic-tac-toe game’s history and “jump back” to previous moves. This functionality isn’t specific to games — an ability to undo and redo certain actions is a common requirement in applications. Avoiding direct data mutation lets us keep previous versions of the game’s history intact, and reuse them later.
+
+Currently adding react to rails app
+Read up on react-rails, and many others, but none is useful and clear
+
+
+// second build
+rails new TaskManager-api --api
+// edit gemfile
+bundle install
+rails generate model Task name:string description:string due:datetime priority:integer tag:string done:boolean
+rails generate controller Tasks index create update destroy edit
+rails db:migrate
+rails db:seed
+
+npm install -g create-react-app
+create-react-app task-manager-app
+yarn --cwd task-manager-app start
+
+heroku local -f Procfile.windows
