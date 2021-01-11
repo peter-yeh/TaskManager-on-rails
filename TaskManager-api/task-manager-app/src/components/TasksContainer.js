@@ -90,10 +90,12 @@ class TasksContainer extends Component {
             {this.state.tasks.map((task) => {
               return (
                 <li className="task" task={task} key={task.id}>
-                  <label className="taskLabel">{task.name}</label>
-
-                  <input className="taskCheckbox" type="checkbox" checked={task.done}
+                  <input className="taskCheckbox"
+                    type="checkbox"
+                    checked={task.done}
                     onChange={(e) => this.updateTask(e, task.id)} />
+
+                  <label className="taskLabel">{task.name}</label>
 
                   <span className="deleteTaskBtn" onClick={(e) => this.deleteTask(task.id)}>x</span>
 
