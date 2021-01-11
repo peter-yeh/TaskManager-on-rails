@@ -74,6 +74,8 @@ class TasksContainer extends Component {
   render() {
     return (
       <div>
+
+
         <div className="inputContainer">
           <input className="taskInput" type="text"
             placeholder="Add a task" maxLength="50"
@@ -81,6 +83,7 @@ class TasksContainer extends Component {
             value={this.state.inputValue}
             onChange={this.handleChange} />
         </div>
+
 
         <div className="listWrapper">
           <ul className="taskList">
@@ -99,6 +102,8 @@ class TasksContainer extends Component {
             })}
           </ul>
         </div>
+
+
       </div>
     )
   }
