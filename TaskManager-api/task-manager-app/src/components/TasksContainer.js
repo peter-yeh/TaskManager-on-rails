@@ -13,7 +13,6 @@ class TasksContainer extends Component {
     this.state = {
       tasks: [],
       inputValue: '',
-      doneValue: false,
       showFormComponent: false
     };
     this.onFabClick = this.onFabClick.bind(this);
@@ -29,12 +28,12 @@ class TasksContainer extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({ inputValue: e.target.value, doneValue: e.target.selected });
+    this.setState({ inputValue: e.target.value });
   }
 
   createTask = (e) => {
     if (e.key === 'Enter') {
-      axios.post('/api/v1/tasks', { task: { name: e.target.value, done: e.target.selected } })
+      axios.post('/api/v1/tasks', { task: { name: e.target.value } })
         .then(response => {
           const tasks = update(this.state.tasks, {
             $splice: [[0, 0, response.data]]
@@ -94,37 +93,14 @@ class TasksContainer extends Component {
         {this.state.showFormComponent ?
           <FormComponent />
           : <div>
-            {/* <div className="inputContainer">
-          <input className="taskInput" type="text"
-          placeholder="Add a task" maxLength="50"
-          onKeyPress={this.createTask}
-          value={this.state.inputValue}
-          onChange={this.handleChange} />
-        </div> */}
 
-            <form onSubmit={this.createTask}>
+            <div className="inputContainer">
               <input className="taskInput" type="text"
                 placeholder="Add a task" maxLength="50"
-                // onKeyPress={this.createTask}
+                onKeyPress={this.createTask}
                 value={this.state.inputValue}
                 onChange={this.handleChange} />
-
-              <label>
-                <select value={this.state.doneValuevalue}
-                  onChange={this.handleChange}>
-                  <option selected value="not done">Not Done</option>
-                  <option value="done">Done</option>
-                </select>
-
-                <select>
-                  <option value="1">Low</option>
-                  <option selected value="2">Medium</option>
-                  <option value="3">High</option>
-                </select>
-              </label>
-            </form>
-
-
+            </div>
 
             <div className="listWrapper">
               <ul className="taskList">
