@@ -3,13 +3,13 @@ import axios from 'axios'
 import update from 'immutability-helper'
 
 // Material UI
-// import Button from '@material-ui/core/Button';
-// import Fab from '@material-ui/core/Fab';
-// import AddIcon from '@material-ui/icons/Add';
-// import DoneIcon from '@material-ui/icons/Done'
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import DoneIcon from '@material-ui/icons/Done'
 
-// import TextField from '@material-ui/core/TextField';
-// import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 
@@ -54,7 +54,7 @@ class TasksContainer extends Component {
       inputValue: '',
       showFormComponent: false
     };
-    // this.onFabClick = this.onFabClick.bind(this);
+    this.onFabClick = this.onFabClick.bind(this);
 
   }
 
@@ -118,20 +118,20 @@ class TasksContainer extends Component {
     this.getTasks()
   }
 
-//   onFabClick() {
-//     if (this.state.showFormComponent) {
-//       this.setState({ showFormComponent: false, });
-//     } else {
-//       this.setState({ showFormComponent: true, });
-//     }
-//   }
+  onFabClick() {
+    if (this.state.showFormComponent) {
+      this.setState({ showFormComponent: false, });
+    } else {
+      this.setState({ showFormComponent: true, });
+    }
+  }
 
   render() {
     return (
       <div>
-        {/* {this.state.showFormComponent
+        {this.state.showFormComponent
           ? <FormComponent />
-          : <div> */}
+          : <div>
 
             <div className="inputContainer">
               <input className="taskInput" type="text"
@@ -160,10 +160,10 @@ class TasksContainer extends Component {
                 })}
               </ul>
             </div>
-          {/* </div>} */}
+          </div>}
 
 
-        {/* <div>
+        <div>
           <Fab color="primary"
             aria-label="add"
             onClick={this.onFabClick}
@@ -172,7 +172,7 @@ class TasksContainer extends Component {
               <DoneIcon /> : <AddIcon />}
 
           </Fab>
-        </div> */}
+        </div>
 
       </div >
 
@@ -181,65 +181,65 @@ class TasksContainer extends Component {
   }
 }
 
-// class FormComponent extends Component {
+class FormComponent extends Component {
 
-//   render() {
-//     return (
-//       <div makeStyles>
+  render() {
+    return (
+      <div makeStyles>
 
-//         <h1>Add a new Task</h1>
+        <h1>Add a new Task</h1>
 
-//         <form noValidate autoComplete="off">
-//           <TextField id="filled-basic-name" label="Name" variant="filled" fullWidth />
+        <form noValidate autoComplete="off">
+          <TextField id="filled-basic-name" label="Name" variant="filled" fullWidth />
 
-//           <TextField id="filled-basic-description" label="Description" variant="filled" fullWidth />
+          <TextField id="filled-basic-description" label="Description" variant="filled" fullWidth />
 
-//           <TextField id="filled-basic-tag" label="Tag" variant="filled" fullWidth />
+          <TextField id="filled-basic-tag" label="Tag" variant="filled" fullWidth />
 
-//           <TextField id="filled-select-priority" select label="Priority" value={2} variant="filled" helperText="Please select your priority"
-//             onChange={this.handleChange}          >
-//             {/* {priorities.map((option) => (
-//               <MenuItem key={option.value} value={option.value}>
-//               {option.label}
-//               </MenuItem>
-//             ))} */}
+          <TextField id="filled-select-priority" select label="Priority" value={2} variant="filled" helperText="Please select your priority"
+            onChange={this.handleChange}          >
+            {/* {priorities.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+              {option.label}
+              </MenuItem>
+            ))} */}
 
-//             <MenuItem value="1">Name1</MenuItem>
-//             <MenuItem value="2">Name2</MenuItem>
-//             <MenuItem value="3">Name3</MenuItem>
-//           </TextField>
+            <MenuItem value="1">Name1</MenuItem>
+            <MenuItem value="2">Name2</MenuItem>
+            <MenuItem value="3">Name3</MenuItem>
+          </TextField>
 
-//           <TextField id="filled-select-done" select label="done" value={false} variant="filled" helperText="Task is done?"
-//             onChange={this.handleChange}>
-//             {dones.map((option) => (
-//               <MenuItem key={option.value} value={option.value}>
-//                 {option.label}
-//               </MenuItem>
-//             ))}
-//           </TextField>
-//         </form>
+          <TextField id="filled-select-done" select label="done" value={false} variant="filled" helperText="Task is done?"
+            onChange={this.handleChange}>
+            {dones.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </form>
 
-//         {/* <DateTimePicker
-//           variant="inline"
-//           label="Basic example"
-//         // value={selectedDate}
-//         // onChange={handleDateChange}
-//         /> */}
+        {/* <DateTimePicker
+          variant="inline"
+          label="Basic example"
+        // value={selectedDate}
+        // onChange={handleDateChange}
+        /> */}
 
-//         {/* <KeyboardDateTimePicker
-//           variant="inline"
-//           ampm={false}
-//           label="With keyboard"
-//           // value={selectedDate}
-//           // onChange={handleDateChange}
-//           onError={console.log}
-//           disablePast
-//           format="yyyy/MM/dd HH:mm"
-//         /> */}
+        {/* <KeyboardDateTimePicker
+          variant="inline"
+          ampm={false}
+          label="With keyboard"
+          // value={selectedDate}
+          // onChange={handleDateChange}
+          onError={console.log}
+          disablePast
+          format="yyyy/MM/dd HH:mm"
+        /> */}
 
-//       </div>
-//     );
-//   }
-// }
+      </div>
+    );
+  }
+}
 
 export default TasksContainer
