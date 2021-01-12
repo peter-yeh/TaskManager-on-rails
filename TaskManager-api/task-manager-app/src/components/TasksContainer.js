@@ -6,6 +6,7 @@ import update from 'immutability-helper'
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import DoneIcon from '@material-ui/icons/Done'
 
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -128,8 +129,8 @@ class TasksContainer extends Component {
   render() {
     return (
       <div>
-        {this.state.showFormComponent ?
-          <FormComponent />
+        {this.state.showFormComponent
+          ? <FormComponent />
           : <div>
 
             <div className="inputContainer">
@@ -167,7 +168,9 @@ class TasksContainer extends Component {
             aria-label="add"
             onClick={this.onFabClick}
             sytle={{ bottom: 1, right: 3 }}>
-            <AddIcon />
+            {this.state.showFormComponent ?
+              <DoneIcon /> : <AddIcon />}
+
           </Fab>
         </div>
 
@@ -233,9 +236,6 @@ class FormComponent extends Component {
           disablePast
           format="yyyy/MM/dd HH:mm"
         /> */}
-
-
-        <Button variant="contained" color="primary">Create task</Button>
 
       </div>
     );
