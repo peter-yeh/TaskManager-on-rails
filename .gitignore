@@ -1,3 +1,7 @@
 TaskManager-api/log
 TaskManager-api/test
 TaskManager-api/tmp
+
+TaskManager-api/task-manager-app/node_modules
+TaskManager-api/task-manager-app/build
+TaskManager-api/task-manager-app/.eslintcache

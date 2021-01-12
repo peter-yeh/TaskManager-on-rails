@@ -32,6 +32,8 @@ rails db:migrate
 rails db:seed
 
 npm install -g create-react-app
+// open cmd with admin rights
+cd C:\Users\Yeh\Git\TaskManager-on-rails\TaskManager-api
 create-react-app task-manager-app
 yarn --cwd task-manager-app start
 
