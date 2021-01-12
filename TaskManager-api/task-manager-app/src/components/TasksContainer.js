@@ -7,6 +7,44 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
+
+// import { AddIcon } from '@material-ui/icons/Add';
+// import { Button, Fab, TextField, MenuItem } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core/styles'
+// import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
+
+
+
+const priorities = [
+  {
+    value: '1',
+    label: 'LOW',
+  },
+  {
+    value: '2',
+    label: 'Medium',
+  },
+  {
+    value: '3',
+    label: 'High',
+  },
+];
+
+const dones = [
+  {
+    value: false,
+    label: 'not done',
+  },
+  {
+    value: true,
+    label: 'done',
+  },
+];
+
 class TasksContainer extends Component {
   constructor(props) {
     super(props);
@@ -144,8 +182,61 @@ class FormComponent extends Component {
 
   render() {
     return (
-      <div>
-        <Button variant="contained" color="primary">Hello World</Button>
+      <div makeStyles>
+
+        <h1>Add a new Task</h1>
+
+        <form noValidate autoComplete="off">
+          <TextField id="filled-basic-name" label="Name" variant="filled" fullWidth />
+
+          <TextField id="filled-basic-description" label="Description" variant="filled" fullWidth />
+
+          <TextField id="filled-basic-tag" label="Tag" variant="filled" fullWidth />
+
+          <TextField id="filled-select-priority" select label="Priority" value={2} variant="filled" helperText="Please select your priority"
+            onChange={this.handleChange}          >
+            {/* {priorities.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+              {option.label}
+              </MenuItem>
+            ))} */}
+
+            <MenuItem value="1">Name1</MenuItem>
+            <MenuItem value="2">Name2</MenuItem>
+            <MenuItem value="3">Name3</MenuItem>
+          </TextField>
+
+          <TextField id="filled-select-done" select label="done" value={false} variant="filled" helperText="Task is done?"
+            onChange={this.handleChange}>
+            {dones.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </form>
+
+        {/* <DateTimePicker
+          variant="inline"
+          label="Basic example"
+        // value={selectedDate}
+        // onChange={handleDateChange}
+        /> */}
+
+        {/* <KeyboardDateTimePicker
+          variant="inline"
+          ampm={false}
+          label="With keyboard"
+          // value={selectedDate}
+          // onChange={handleDateChange}
+          onError={console.log}
+          disablePast
+          format="yyyy/MM/dd HH:mm"
+        /> */}
+
+
+        <Button variant="contained" color="primary">Create task</Button>
+
       </div>
     );
   }
