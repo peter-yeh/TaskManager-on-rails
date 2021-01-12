@@ -9,12 +9,15 @@ import AddIcon from '@material-ui/icons/Add';
 
 class TasksContainer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       tasks: [],
       inputValue: '',
-      doneValue: false
-    }
+      doneValue: false,
+      showFormComponent: false
+    };
+    this.onFabClick = this.onFabClick.bind(this);
+
   }
 
   getTasks() {
@@ -77,20 +80,28 @@ class TasksContainer extends Component {
     this.getTasks()
   }
 
+  onFabClick() {
+    if (this.state.showFormComponent) {
+      this.setState({ showFormComponent: false, });
+    } else {
+      this.setState({ showFormComponent: true, });
+    }
+  }
+
   render() {
     return (
       <div>
+        {this.state.showFormComponent ?
+          <FormComponent />
+          : null}
 
-        <Fab color="primary" aria-label="add">
-          <AddIcon />
-        </Fab>
 
         {/* <div className="inputContainer">
           <input className="taskInput" type="text"
-            placeholder="Add a task" maxLength="50"
-            onKeyPress={this.createTask}
-            value={this.state.inputValue}
-            onChange={this.handleChange} />
+          placeholder="Add a task" maxLength="50"
+          onKeyPress={this.createTask}
+          value={this.state.inputValue}
+          onChange={this.handleChange} />
         </div> */}
 
         <form onSubmit={this.createTask}>
@@ -116,8 +127,6 @@ class TasksContainer extends Component {
         </form>
 
 
-        <Button variant="contained" color="primary">Hello World</Button>
-
 
         <div className="listWrapper">
           <ul className="taskList">
@@ -140,8 +149,30 @@ class TasksContainer extends Component {
         </div>
 
 
+        <div>
+          <Fab color="primary"
+            aria-label="add"
+            onClick={this.onFabClick}
+            sytle={{ bottom: 1, right: 3 }}>
+            <AddIcon />
+          </Fab>
+        </div>
+
       </div >
+
+
     )
+  }
+}
+
+class FormComponent extends Component {
+
+  render() {
+    return (
+      <div>
+        <Button variant="contained" color="primary">Hello World</Button>
+      </div>
+    );
   }
 }
 
