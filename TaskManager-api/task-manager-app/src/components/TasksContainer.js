@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import update from 'immutability-helper'
 
+// Material UI
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
 class TasksContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
       tasks: [],
-      inputValue: ''
+      inputValue: '',
+      doneValue: false
     }
   }
 
@@ -20,12 +26,12 @@ class TasksContainer extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({ inputValue: e.target.value });
+    this.setState({ inputValue: e.target.value, doneValue: e.target.selected });
   }
 
   createTask = (e) => {
     if (e.key === 'Enter') {
-      axios.post('/api/v1/tasks', { task: { name: e.target.value } })
+      axios.post('/api/v1/tasks', { task: { name: e.target.value, done: e.target.selected } })
         .then(response => {
           const tasks = update(this.state.tasks, {
             $splice: [[0, 0, response.data]]
@@ -75,14 +81,42 @@ class TasksContainer extends Component {
     return (
       <div>
 
+        <Fab color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
 
-        <div className="inputContainer">
+        {/* <div className="inputContainer">
           <input className="taskInput" type="text"
             placeholder="Add a task" maxLength="50"
             onKeyPress={this.createTask}
             value={this.state.inputValue}
             onChange={this.handleChange} />
-        </div>
+        </div> */}
+
+        <form onSubmit={this.createTask}>
+          <input className="taskInput" type="text"
+            placeholder="Add a task" maxLength="50"
+            // onKeyPress={this.createTask}
+            value={this.state.inputValue}
+            onChange={this.handleChange} />
+
+          <label>
+            <select value={this.state.doneValuevalue}
+              onChange={this.handleChange}>
+              <option selected value="not done">Not Done</option>
+              <option value="done">Done</option>
+            </select>
+
+            <select>
+              <option value="1">Low</option>
+              <option selected value="2">Medium</option>
+              <option value="3">High</option>
+            </select>
+          </label>
+        </form>
+
+
+        <Button variant="contained" color="primary">Hello World</Button>
 
 
         <div className="listWrapper">
@@ -106,7 +140,7 @@ class TasksContainer extends Component {
         </div>
 
 
-      </div>
+      </div >
     )
   }
 }
