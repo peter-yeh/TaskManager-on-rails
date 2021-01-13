@@ -2,18 +2,14 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import update from 'immutability-helper'
 
-import TextField from '@material-ui/core/TextField';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Button from '@material-ui/core/Button'
+import { Button, MenuItem, Snackbar, Slide, TextField } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save'
-// import Snackbar from '@material-ui/core/Snackbar';
-import { Button, Snackbar, Slide } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 
 const priorities = [
   {
     value: '1',
-    label: 'LOW',
+    label: 'Low',
   },
   {
     value: '2',
@@ -40,17 +36,58 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+function SlideUp() {
+  return <Slide direction='up' />;
+}
+
 class FormContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
-      inputName: ''
+      inputName: '',
+      inputDescription: '',
+      inputDue: '',
+      inputPriority: 2,
+      inputTag: '',
+      inputDone: false
     };
   }
 
-  handleChange = (e) => {
-    this.setState({ inputName: e.target.value });
+  handleNameChange = (e) => {
+    this.setState({
+      inputName: e.target.value
+    });
+  }
+
+  handleDescriptionChange = (e) => {
+    this.setState({
+      inputDescription: e.target.value
+    });
+  }
+
+  handleDueChange = (e) => {
+    this.setState({
+      inputDue: e.target.value
+    });
+  }
+
+  handlePriorityChange = (e) => {
+    this.setState({
+      inputPriority: e.target.value
+    });
+  }
+
+  handleTagChange = (e) => {
+    this.setState({
+      inputTag: e.target.value
+    });
+  }
+
+  handleDoneChange = (e) => {
+    this.setState({
+      inputDone: e.target.value
+    });
   }
 
   handleClose = () => {
@@ -58,11 +95,25 @@ class FormContainer extends Component {
   }
 
   createTask = () => {
-    axios.post('/api/v1/tasks', { task: { name: this.state.inputName } })
+    axios.post('/api/v1/tasks', {
+      task: {
+        name: this.state.inputName,
+        description: this.state.inputDescription,
+        // due: this.state.inputDue,
+        priority: this.state.inputPriority,
+        tag: this.state.inputTag,
+        done: this.state.inputDone
+      }
+    })
       .then(response => {
         this.setState({
           isOpen: true,
-          inputName: ''
+          inputName: '',
+          inputDescription: '',
+          inputDue: '',
+          inputPriority: 2,
+          inputTag: '',
+          inputDone: false
         })
         console.log("Creating tasks succeed")
       })
@@ -81,51 +132,73 @@ class FormContainer extends Component {
             id="filled-basic-name"
             label="Name"
             value={this.state.inputName}
-            onChange={this.handleChange}
+            onChange={this.handleNameChange}
             variant="filled" fullWidth />
 
-          {/* <TextField id="filled-basic-description" label="Description" variant="filled" fullWidth />
-  
-            <TextField id="filled-basic-tag" label="Tag" variant="filled" fullWidth /> */}
+          <TextField
+            id="filled-basic-description"
+            label="Description"
+            value={this.state.inputDescription}
+            onChange={this.handleDescriptionChange}
+            variant="filled" fullWidth />
 
-          {/* <TextField id="filled-select-priority" select label="Priority" value={2} variant="filled" helperText="Please select your priority"
-              onChange={this.handleChange}          >
-               {priorities.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+          {/* <DateTimePicker
+                variant="inline"
+                label="Basic example"
+              // value={selectedDate}
+              // onChange={handleDateChange}
+              /> */}
+
+          {/* <KeyboardDateTimePicker
+                variant="inline"
+                ampm={false}
+                label="With keyboard"
+                // value={selectedDate}
+                // onChange={handleDateChange}
+                onError={console.log}
+                disablePast
+                format="yyyy/MM/dd HH:mm"
+              /> */}
+
+          <TextField
+            id="filled-select-priority"
+            select label="Priority"
+            value={this.state.inputPriority}
+            variant="filled"
+            helperText="Please select your priority"
+            onChange={this.handlePriorityChange} >
+            {priorities.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
                 {option.label}
-                </MenuItem>
-              ))}
-            </TextField> */}
+              </MenuItem>
+            ))}
+          </TextField>
 
-          {/* <TextField id="filled-select-done" select label="done" value={false} variant="filled" helperText="Task is done?"
-              onChange={this.handleChange}>
-              {dones.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField> */}
+          <TextField
+            id="filled-basic-tag"
+            label="Tag"
+            value={this.state.inputTag}
+            onChange={this.handleTagChange}
+            variant="filled" fullWidth />
+
+          <TextField
+            id="filled-select-done"
+            select label="done"
+            value={this.state.inputDone}
+            variant="filled"
+            helperText="Task is done?"
+            onChange={this.handleDoneChange}>
+            {dones.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
         </form>
 
-        {/* <DateTimePicker
-            variant="inline"
-            label="Basic example"
-          // value={selectedDate}
-          // onChange={handleDateChange}
-          /> */}
 
-        {/* <KeyboardDateTimePicker
-            variant="inline"
-            ampm={false}
-            label="With keyboard"
-            // value={selectedDate}
-            // onChange={handleDateChange}
-            onError={console.log}
-            disablePast
-            format="yyyy/MM/dd HH:mm"
-          /> */}
-
-
+        {/* if the compuslory things are not filled up, dont' proceed */}
         <Button
           variant="contained"
           color="primary"
@@ -134,15 +207,12 @@ class FormContainer extends Component {
           Save
         </Button>
 
-
-
-        {/* Snackbar should slide up and the words inside shoudl align center */}
+        {/* TODO Snackbar should slide up */}
         <Snackbar
-          className="successSnackbar"
           autoHideDuration={1000}
           open={this.state.isOpen}
           onClose={this.handleClose}
-        // TransitionComponent={() => () => <Slide direction="up"  />}
+        // TransitionComponent={SlideUp}
         >
           <Alert onClose={this.handleClose} severity="success">
             Saved Successfully!

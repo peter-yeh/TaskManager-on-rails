@@ -107,8 +107,3 @@ input[placeholder] {
 	margin-right: 5px;
 	cursor: default;
 }
-
-.successSnackbar span {
-	margin: auto;
-	text-align: center;
-}

@@ -5,9 +5,10 @@ import FormContainer from './components/FormContainer'
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import DoneIcon from '@material-ui/icons/Done'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,14 +39,14 @@ class App extends Component {
             : <TasksContainer />
         }
 
-        <Fab color="primary"
+        <Fab
+          color="primary"
           aria-label="add"
           onClick={this.onFabClick}
-          sytle={{ bottom: 1, right: 1 }}>
-
+          style={{ position: 'fixed', bottom: 20, right: 20 }} >
           {
             this.state.showFormComponent
-              ? <DoneIcon />
+              ? <ArrowBackIcon />
               : <AddIcon />
           }
         </Fab>
