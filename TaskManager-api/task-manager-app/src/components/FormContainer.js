@@ -6,8 +6,9 @@ import TextField from '@material-ui/core/TextField';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/Save'
-import Snackbar from '@material-ui/core/Snackbar';
-import { Button, Slide } from '@material-ui/core';
+// import Snackbar from '@material-ui/core/Snackbar';
+import { Button, Snackbar, Slide } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const priorities = [
   {
@@ -34,6 +35,10 @@ const dones = [
     label: 'done',
   },
 ];
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class FormContainer extends Component {
   constructor(props) {
@@ -137,9 +142,12 @@ class FormContainer extends Component {
           autoHideDuration={1000}
           open={this.state.isOpen}
           onClose={this.handleClose}
-          // TransitionComponent={() => () => <Slide direction="up"  />}
-          message="Saved successfully!"
-        />
+        // TransitionComponent={() => () => <Slide direction="up"  />}
+        >
+          <Alert onClose={this.handleClose} severity="success">
+            Saved Successfully!
+            </Alert>
+        </Snackbar>
 
 
       </div>
