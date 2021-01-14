@@ -44,10 +44,10 @@ class FormContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      showSnackBar: false,
       inputName: '',
       inputDescription: '',
-      inputDue: new Date(),
+      inputDue: '',
       inputPriority: 2,
       inputTag: '',
       inputDone: false,
@@ -98,7 +98,7 @@ class FormContainer extends Component {
   }
 
   handleClose = () => {
-    this.setState({ isOpen: false });
+    this.setState({ showSnackBar: false });
   }
 
   createTask = () => {
@@ -117,7 +117,7 @@ class FormContainer extends Component {
           showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          inputDue: new Date(),
+          // inputDue: new Date(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
@@ -218,7 +218,7 @@ class FormContainer extends Component {
         {/* TODO Snackbar should slide up */}
         <Snackbar
           autoHideDuration={1000}
-          open={this.state.isOpen}
+          open={this.state.showSnackBar}
           onClose={this.handleClose}
         // TransitionComponent={SlideUp}
         >
