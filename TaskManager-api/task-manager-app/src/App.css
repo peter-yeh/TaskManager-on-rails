@@ -107,3 +107,7 @@ input[placeholder] {
 	margin-right: 5px;
 	cursor: default;
 }
+
+.matList {
+	padding: 10px;
+}

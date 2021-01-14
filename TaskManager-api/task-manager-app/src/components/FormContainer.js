@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import update from 'immutability-helper'
 
-import { Button, MenuItem, Snackbar, Slide, TextField } from '@material-ui/core';
+import { Button, MenuItem, Snackbar, Slide, TextField, useTheme } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save'
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -50,7 +50,8 @@ class FormContainer extends Component {
       inputDue: '',
       inputPriority: 2,
       inputTag: '',
-      inputDone: false
+      inputDone: false,
+      isTagCorrect: false
     };
   }
 
@@ -82,6 +83,12 @@ class FormContainer extends Component {
     this.setState({
       inputTag: e.target.value
     });
+
+    if (e.target.value.match(phoneRegex)) {
+      this.setState({ isTagCorrect: true })
+    } else {
+      this.setState({ isTagCorrect: false })
+    }
   }
 
   handleDoneChange = (e) => {
@@ -129,13 +136,16 @@ class FormContainer extends Component {
 
         <form noValidate autoComplete="off">
           <TextField
+            className='matList'
             id="filled-basic-name"
             label="Name"
             value={this.state.inputName}
             onChange={this.handleNameChange}
+            error={this.state.inputName.length === 0 ? 'Name cannot be empty' : ''}
             variant="filled" fullWidth />
 
           <TextField
+            className='matList'
             id="filled-basic-description"
             label="Description"
             value={this.state.inputDescription}
@@ -161,6 +171,7 @@ class FormContainer extends Component {
               /> */}
 
           <TextField
+            className='matList'
             id="filled-select-priority"
             select label="Priority"
             value={this.state.inputPriority}
@@ -175,13 +186,16 @@ class FormContainer extends Component {
           </TextField>
 
           <TextField
+            className='matList'
             id="filled-basic-tag"
             label="Tag"
             value={this.state.inputTag}
             onChange={this.handleTagChange}
+            errorText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
             variant="filled" fullWidth />
 
           <TextField
+            className='matList'
             id="filled-select-done"
             select label="done"
             value={this.state.inputDone}
@@ -200,10 +214,12 @@ class FormContainer extends Component {
 
         {/* if the compuslory things are not filled up, dont' proceed */}
         <Button
+          className='matList'
           variant="contained"
           color="primary"
           startIcon={<SaveIcon />}
-          onClick={this.createTask} >
+          onClick={this.createTask}
+          disabled={this.state.inputName.length === 0 ? true : false} >
           Save
         </Button>
 
