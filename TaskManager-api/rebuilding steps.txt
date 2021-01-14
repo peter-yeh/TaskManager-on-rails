@@ -1,0 +1,46 @@
+// seeds.rb
+Task.create(name:"First task", description:"body of first task", tag:"tag of first task", due:"2020-12-29 11:12:23", priority:2, done: false)
+Task.create(name:"Second task", description:"body of second task", tag:"tag of second task", due:"2021-12-29 11:12:23", priority:3, done: true)
+
+
+// Tutorials used
+http://guides.rubyonrails.org/getting_started.html
+http://railscasts.com/episodes/228-sortable-table-columns?view=asciicast // Sort table tutorial
+https://pamit.medium.com/todo-list-building-a-react-app-with-rails-api-7a3027907665
+
+
+Immutability makes complex features much easier to implement. Later in this tutorial, we will implement a “time travel” feature that allows us to review the tic-tac-toe game’s history and “jump back” to previous moves. This functionality isn’t specific to games — an ability to undo and redo certain actions is a common requirement in applications. Avoiding direct data mutation lets us keep previous versions of the game’s history intact, and reuse them later.
+
+// Challenges faced
+Currently adding react to rails app
+Read up on react-rails, and many others, but none is useful and clear
+There is no one size fits all tutorial. I really have to understand what's happening at each stage of the developement so that I don't use the wrong route. Though debuggin is fun and an important part of the process, it's not as time friendly if I don't know what I am copying. I rebuild and redesign my app 3 times.
+
+
+// second build
+
+// before deleting, take out
+- gemfile
+- .gitignore
+
+rails new TaskManager-api --api
+// edit gemfile
+bundle install
+rails generate model Task name:string description:string due:datetime priority:integer tag:string done:boolean
+rails generate controller Tasks index create update destroy edit
+rails db:migrate
+rails db:seed
+
+npm install -g create-react-app
+// open cmd with admin rights
+cd C:\Users\Yeh\Git\TaskManager-on-rails\TaskManager-api
+create-react-app task-manager-app
+yarn start // only works in the react app path
+
+heroku local -f Procfile.windows
+
+npm install axios --save
+npm install immutability-helper --save
+npm install @material-ui/core
+npm install @material-ui/icons
+
