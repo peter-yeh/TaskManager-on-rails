@@ -22,8 +22,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 // name, description, duedate, priority, tag, done (maybe can put checkbox)
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
+// function createData(name, descriptions, fat, carbs, protein) {
+//   return { name, descriptions, fat, carbs, protein };
 // }
 
 // const rows = [
@@ -165,20 +165,21 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
           <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-            Nutrition
+            List
           </Typography>
         )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete"
-            onClick={() =>
-              deleteList.forEach(element => {
-                deleteTask(element.id);
-                console.log("Each element is: " + element);
-              })
+          <IconButton
+            aria-label="delete"
+            onClick={() => {
+              deleteList.forEach(element => { deleteTask(element.id); console.log("Each element is: " + element); })
+              // numSelected = 0;
+              // delete works, but need to refresh the icons
+              // find ways to refresh the props.numSelected
+            }}>
 
-            }>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -188,8 +189,9 @@ const EnhancedTableToolbar = (props) => {
               <FilterListIcon />
             </IconButton>
           </Tooltip>
-        )}
-    </Toolbar>
+        )
+      }
+    </Toolbar >
   );
 };
 
@@ -227,7 +229,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('descriptions');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -242,7 +244,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n);
       setSelected(newSelecteds);
       return;
     }
@@ -250,7 +252,7 @@ export default function EnhancedTable(props) {
   };
 
   const handleClick = (event, row) => {
-    const selectedIndex = selected.indexOf(row.name);
+    const selectedIndex = selected.indexOf(row);
     let newSelected = [];
 
     if (selectedIndex === -1) {
@@ -284,7 +286,7 @@ export default function EnhancedTable(props) {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (r) => selected.indexOf(r) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -312,7 +314,7 @@ export default function EnhancedTable(props) {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -334,7 +336,7 @@ export default function EnhancedTable(props) {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.description}</TableCell>
                       <TableCell align="right">{row.fat}</TableCell>
                       <TableCell align="right">{row.carbs}</TableCell>
                       <TableCell align="right">{row.protein}</TableCell>
