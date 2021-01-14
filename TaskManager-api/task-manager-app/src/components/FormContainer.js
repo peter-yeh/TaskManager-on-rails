@@ -84,11 +84,11 @@ class FormContainer extends Component {
       inputTag: e.target.value
     });
 
-    if (e.target.value.match(phoneRegex)) {
-      this.setState({ isTagCorrect: true })
-    } else {
-      this.setState({ isTagCorrect: false })
-    }
+    // if (e.target.value.match(phoneRegex)) {
+    //   this.setState({ isTagCorrect: true })
+    // } else {
+    //   this.setState({ isTagCorrect: false })
+    // }
   }
 
   handleDoneChange = (e) => {
@@ -106,7 +106,7 @@ class FormContainer extends Component {
       task: {
         name: this.state.inputName,
         description: this.state.inputDescription,
-        // due: this.state.inputDue,
+        due: this.state.inputDue,
         priority: this.state.inputPriority,
         tag: this.state.inputTag,
         done: this.state.inputDone
@@ -152,23 +152,18 @@ class FormContainer extends Component {
             onChange={this.handleDescriptionChange}
             variant="filled" fullWidth />
 
-          {/* <DateTimePicker
-                variant="inline"
-                label="Basic example"
-              // value={selectedDate}
-              // onChange={handleDateChange}
-              /> */}
-
-          {/* <KeyboardDateTimePicker
-                variant="inline"
-                ampm={false}
-                label="With keyboard"
-                // value={selectedDate}
-                // onChange={handleDateChange}
-                onError={console.log}
-                disablePast
-                format="yyyy/MM/dd HH:mm"
-              /> */}
+          <TextField
+            id="filled-basic-due"
+            label="Due date"
+            type="datetime-local"
+            defaultValue="2017-05-24T10:30"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={this.state.inputDue}
+            onChange={this.handleDueChange}
+            fullWidth
+          />
 
           <TextField
             className='matList'
@@ -191,7 +186,7 @@ class FormContainer extends Component {
             label="Tag"
             value={this.state.inputTag}
             onChange={this.handleTagChange}
-            errorText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
+            error={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
             variant="filled" fullWidth />
 
           <TextField
@@ -212,7 +207,6 @@ class FormContainer extends Component {
         </form>
 
 
-        {/* if the compuslory things are not filled up, dont' proceed */}
         <Button
           className='matList'
           variant="contained"
