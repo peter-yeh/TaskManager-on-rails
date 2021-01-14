@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import update from 'immutability-helper'
 
-import { Button, MenuItem, Snackbar, Slide, TextField, useTheme } from '@material-ui/core';
+import { Button, MenuItem, Snackbar, Slide, TextField, useTheme } from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from '@material-ui/lab/Alert'
+import { withStyles } from '@material-ui/core/styles';
+
 
 const priorities = [
   {
@@ -39,6 +41,16 @@ function Alert(props) {
 function SlideUp() {
   return <Slide direction='up' />;
 }
+
+const useStyles = theme => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: 500
+    },
+  },
+});
+
 
 class FormContainer extends Component {
   constructor(props) {
@@ -84,11 +96,11 @@ class FormContainer extends Component {
       inputTag: e.target.value
     });
 
-    // if (e.target.value.match(phoneRegex)) {
-    //   this.setState({ isTagCorrect: true })
-    // } else {
-    //   this.setState({ isTagCorrect: false })
-    // }
+    if (e.target.value.match(Regex)) {
+      this.setState({ isTagCorrect: true })
+    } else {
+      this.setState({ isTagCorrect: false })
+    }
   }
 
   handleDoneChange = (e) => {
@@ -128,44 +140,38 @@ class FormContainer extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
 
         <h1>Add a new Task</h1>
 
-        <form noValidate autoComplete="off">
+        <form
+          className={classes.root}
+          noValidate autoComplete="off">
+
           <TextField
-            className='matList'
-            id="filled-basic-name"
             label="Name"
             value={this.state.inputName}
             onChange={this.handleNameChange}
-            error={this.state.inputName.length === 0 ? 'Name cannot be empty' : ''}
-            variant="filled" fullWidth />
+            error={this.state.inputName.length === 0}
+            helperText={this.state.inputName.length === 0 ? 'Name cannot be empty' : ''}
+            variant="filled" />
 
           <TextField
-            className='matList'
-            id="filled-basic-description"
             label="Description"
             value={this.state.inputDescription}
             onChange={this.handleDescriptionChange}
-            variant="filled" fullWidth />
-
+            variant="filled" />
           <TextField
             id="filled-basic-due"
             label="Due date"
             type="datetime-local"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            InputLabelProps={{ shrink: true, }}
             value={this.state.inputDue}
-            onChange={this.handleDueChange}
-            fullWidth
-          />
+            onChange={this.handleDueChange} />
 
           <TextField
-            className='matList'
-            id="filled-select-priority"
             select label="Priority"
             value={this.state.inputPriority}
             variant="filled"
@@ -179,16 +185,15 @@ class FormContainer extends Component {
           </TextField>
 
           <TextField
-            className='matList'
             id="filled-basic-tag"
             label="Tag"
             value={this.state.inputTag}
             onChange={this.handleTagChange}
-            error={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
-            variant="filled" fullWidth />
+            error={this.state.isTagCorrect}
+            helperText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
+            variant="filled" />
 
           <TextField
-            className='matList'
             id="filled-select-done"
             select label="done"
             value={this.state.inputDone}
@@ -206,11 +211,11 @@ class FormContainer extends Component {
 
 
         <Button
-          className='matList'
           variant="contained"
           color="primary"
           startIcon={<SaveIcon />}
           onClick={this.createTask}
+          // check also if the tag is in the right format before enabling the tag
           disabled={this.state.inputName.length === 0 ? true : false} >
           Save
         </Button>
@@ -233,4 +238,4 @@ class FormContainer extends Component {
   }
 }
 
-export default FormContainer
+export default withStyles(useStyles)(FormContainer)
