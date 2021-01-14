@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import update from 'immutability-helper'
 
-import { Button, MenuItem, Snackbar, Slide, TextField, useTheme } from '@material-ui/core'
+import { Button, MenuItem, Snackbar, Slide, TextField } from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
 import MuiAlert from '@material-ui/lab/Alert'
-import { withStyles } from '@material-ui/core/styles';
 
 
 const priorities = [
@@ -37,20 +35,6 @@ const dones = [
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-function SlideUp() {
-  return <Slide direction='up' />;
-}
-
-const useStyles = theme => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: 500
-    },
-  },
-});
-
 
 class FormContainer extends Component {
   constructor(props) {
@@ -95,12 +79,6 @@ class FormContainer extends Component {
     this.setState({
       inputTag: e.target.value
     });
-
-    if (e.target.value.match(Regex)) {
-      this.setState({ isTagCorrect: true })
-    } else {
-      this.setState({ isTagCorrect: false })
-    }
   }
 
   handleDoneChange = (e) => {
@@ -129,7 +107,7 @@ class FormContainer extends Component {
           showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          // inputDue: new Date(),
+          inputDue: new Date(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
@@ -140,75 +118,90 @@ class FormContainer extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
 
         <h1>Add a new Task</h1>
 
         <form
-          className={classes.root}
           noValidate autoComplete="off">
 
-          <TextField
-            label="Name"
-            value={this.state.inputName}
-            onChange={this.handleNameChange}
-            error={this.state.inputName.length === 0}
-            helperText={this.state.inputName.length === 0 ? 'Name cannot be empty' : ''}
-            variant="filled" />
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              label="Name"
+              value={this.state.inputName}
+              onChange={this.handleNameChange}
+              error={this.state.inputName.length === 0}
+              helperText={this.state.inputName.length === 0 ? 'Name cannot be empty' : ''}
+              variant="filled" />
+          </div>
 
-          <TextField
-            label="Description"
-            value={this.state.inputDescription}
-            onChange={this.handleDescriptionChange}
-            variant="filled" />
-          <TextField
-            id="filled-basic-due"
-            label="Due date"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true, }}
-            value={this.state.inputDue}
-            onChange={this.handleDueChange} />
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              label="Description"
+              value={this.state.inputDescription}
+              onChange={this.handleDescriptionChange}
+              variant="filled" />
+          </div>
 
-          <TextField
-            select label="Priority"
-            value={this.state.inputPriority}
-            variant="filled"
-            helperText="Please select your priority"
-            onChange={this.handlePriorityChange} >
-            {priorities.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              id="filled-basic-due"
+              label="Due date"
+              type="datetime-local"
+              InputLabelProps={{ shrink: true, }}
+              value={this.state.inputDue}
+              onChange={this.handleDueChange} />
+          </div>
 
-          <TextField
-            id="filled-basic-tag"
-            label="Tag"
-            value={this.state.inputTag}
-            onChange={this.handleTagChange}
-            error={this.state.isTagCorrect}
-            helperText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
-            variant="filled" />
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              select label="Priority"
+              value={this.state.inputPriority}
+              variant="filled"
+              helperText="Please select your priority"
+              onChange={this.handlePriorityChange} >
+              {priorities.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
 
-          <TextField
-            id="filled-select-done"
-            select label="done"
-            value={this.state.inputDone}
-            variant="filled"
-            helperText="Task is done?"
-            onChange={this.handleDoneChange}>
-            {dones.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              id="filled-basic-tag"
+              label="Tag"
+              value={this.state.inputTag}
+              onChange={this.handleTagChange}
+              error={this.state.isTagCorrect}
+              helperText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
+              variant="filled" />
+          </div>
 
+          <div className='fieldContainer'>
+            <TextField
+              className='field'
+              id="filled-select-done"
+              select label="done"
+              value={this.state.inputDone}
+              variant="filled"
+              helperText="Task is done?"
+              onChange={this.handleDoneChange}>
+              {dones.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
         </form>
-
 
         <Button
           variant="contained"
@@ -225,17 +218,16 @@ class FormContainer extends Component {
           autoHideDuration={1000}
           open={this.state.showSnackBar}
           onClose={this.handleClose}
-        // TransitionComponent={SlideUp}
+        // TransitionComponent={() => <Slide  direction='up' />}
         >
           <Alert onClose={this.handleClose} severity="success">
             Saved Successfully!
             </Alert>
         </Snackbar>
 
-
       </div>
     );
   }
 }
 
-export default withStyles(useStyles)(FormContainer)
+export default FormContainer
