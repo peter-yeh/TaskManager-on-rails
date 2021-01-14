@@ -87,7 +87,7 @@ class TasksContainer extends Component {
           fullWidth />
 
 
-        <EnhancedTable taskList={this.state.tasks} />
+        <EnhancedTable taskList={this.state.tasks} deleteTask={this.deleteTask.bind(this)} />
 
 
         {/* <div className="inputContainer">
