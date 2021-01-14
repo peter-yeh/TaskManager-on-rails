@@ -79,19 +79,17 @@ class TasksContainer extends Component {
       <div>
 
         {/* Add a icon for sorting by diff values */}
-        <TextField
-          className='matList'
+        <TextField className='matList'
           label="Find anything in this table..."
           value={this.state.inputSearchValue}
           onChange={this.handleSearchChange}
           variant="outlined"
-          fullWidth
-        />
+          fullWidth />
 
 
-        <EnhancedTable />
+        <EnhancedTable taskList={this.state.tasks} />
 
-        
+
         {/* <div className="inputContainer">
           <input className="taskInput" type="text"
             placeholder="Find anything in this table..." maxLength="50"
