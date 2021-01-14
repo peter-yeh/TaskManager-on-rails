@@ -3,6 +3,7 @@ import axios from 'axios'
 import update from 'immutability-helper'
 
 import { TextField } from '@material-ui/core';
+import EnhancedTable from './EnhancedTable';
 
 class TasksContainer extends Component {
   constructor(props) {
@@ -87,6 +88,10 @@ class TasksContainer extends Component {
           fullWidth
         />
 
+
+        <EnhancedTable />
+
+        
         {/* <div className="inputContainer">
           <input className="taskInput" type="text"
             placeholder="Find anything in this table..." maxLength="50"
@@ -95,7 +100,7 @@ class TasksContainer extends Component {
             onChange={this.handleSearchChange} />
         </div> */}
 
-        <div className="listWrapper">
+        {/* <div className="listWrapper">
           <ul className="taskList">
             {this.state.tasks.map((task) => {
               return (
@@ -113,7 +118,7 @@ class TasksContainer extends Component {
               )
             })}
           </ul>
-        </div>
+        </div> */}
 
       </div >
     )
