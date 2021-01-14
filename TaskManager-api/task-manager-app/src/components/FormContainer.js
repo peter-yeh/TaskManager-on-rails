@@ -47,7 +47,7 @@ class FormContainer extends Component {
       isOpen: false,
       inputName: '',
       inputDescription: '',
-      inputDue: '',
+      inputDue: new Date(),
       inputPriority: 2,
       inputTag: '',
       inputDone: false,
@@ -114,15 +114,14 @@ class FormContainer extends Component {
     })
       .then(response => {
         this.setState({
-          isOpen: true,
+          showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          inputDue: '',
+          inputDue: new Date(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
         })
-        console.log("Creating tasks succeed")
       })
       .catch(error => console.log(error))
 
@@ -156,7 +155,6 @@ class FormContainer extends Component {
             id="filled-basic-due"
             label="Due date"
             type="datetime-local"
-            defaultValue="2017-05-24T10:30"
             InputLabelProps={{
               shrink: true,
             }}
