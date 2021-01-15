@@ -108,6 +108,10 @@ input[placeholder] {
 	cursor: default;
 }
 
-.matList {
-	padding: 10px;
+.fieldContainer {
+	margin: 24px 0px; /* top bottom, left right */
+}
+
+.field {
+	width: 500px;
 }

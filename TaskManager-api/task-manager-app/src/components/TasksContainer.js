@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import update from 'immutability-helper'
 
+import { TextField } from '@material-ui/core';
+import EnhancedTable from './EnhancedTable';
+
 class TasksContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [],
-      inputValue: '',
+      inputSearchValue: '',
     };
   }
 
@@ -19,25 +22,25 @@ class TasksContainer extends Component {
       .catch(error => console.log(error))
   }
 
-  handleChange = (e) => {
-    this.setState({ inputValue: e.target.value });
+  handleSearchChange = (e) => {
+    this.setState({ inputSearchValue: e.target.value });
   }
 
-  createTask = (e) => {
-    if (e.key === 'Enter') {
-      axios.post('/api/v1/tasks', { task: { name: e.target.value } })
-        .then(response => {
-          const tasks = update(this.state.tasks, {
-            $splice: [[0, 0, response.data]]
-          })
-          this.setState({
-            tasks: tasks,
-            inputValue: ''
-          })
-        })
-        .catch(error => console.log(error))
-    }
-  }
+  // createTask = (e) => {
+  //   if (e.key === 'Enter') {
+  //     axios.post('/api/v1/tasks', { task: { name: e.target.value } })
+  //       .then(response => {
+  //         const tasks = update(this.state.tasks, {
+  //           $splice: [[0, 0, response.data]]
+  //         })
+  //         this.setState({
+  //           tasks: tasks,
+  //           inputSearchValue: ''
+  //         })
+  //       })
+  //       .catch(error => console.log(error))
+  //   }
+  // }
 
   updateTask = (e, id) => {
     axios.put(`/api/v1/tasks/${id}`, { task: { done: e.target.checked } })
@@ -75,15 +78,27 @@ class TasksContainer extends Component {
     return (
       <div>
 
-        <div className="inputContainer">
-          <input className="taskInput" type="text"
-            placeholder="Add a task" maxLength="50"
-            onKeyPress={this.createTask}
-            value={this.state.inputValue}
-            onChange={this.handleChange} />
-        </div>
+        {/* Add a icon for sorting by diff values */}
+        <TextField className='matList'
+          label="Find anything in this table..."
+          value={this.state.inputSearchValue}
+          onChange={this.handleSearchChange}
+          variant="outlined"
+          fullWidth />
 
-        <div className="listWrapper">
+
+        <EnhancedTable taskList={this.state.tasks} deleteTask={this.deleteTask.bind(this)} />
+
+
+        {/* <div className="inputContainer">
+          <input className="taskInput" type="text"
+            placeholder="Find anything in this table..." maxLength="50"
+            onKeyPress={this.createTask}
+            value={this.state.inputSearchValue}
+            onChange={this.handleSearchChange} />
+        </div> */}
+
+        {/* <div className="listWrapper">
           <ul className="taskList">
             {this.state.tasks.map((task) => {
               return (
@@ -101,7 +116,7 @@ class TasksContainer extends Component {
               )
             })}
           </ul>
-        </div>
+        </div> */}
 
       </div >
     )
