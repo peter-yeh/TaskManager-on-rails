@@ -151,7 +151,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected, deleteList, deleteTask } = props;
+  const { numSelected, deleteList, deleteTask, handleClearSelected } = props;
 
   return (
     <Toolbar
@@ -174,11 +174,14 @@ const EnhancedTableToolbar = (props) => {
           <IconButton
             aria-label="delete"
             onClick={() => {
-              deleteList.forEach(element => { deleteTask(element.id); console.log("Each element is: " + element); })
-              // numSelected = 0;
+              deleteList.forEach(element => {
+                deleteTask(element.id);
+                console.log("Each element is: " + element);
+              })
+              handleClearSelected();
               // delete works, but need to refresh the icons
               // find ways to refresh the props.numSelected
-            }}>
+            }} >
 
             <DeleteIcon />
           </IconButton>
@@ -198,7 +201,8 @@ const EnhancedTableToolbar = (props) => {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   deleteList: PropTypes.array.isRequired,
-  deleteTask: PropTypes.func.isRequired
+  deleteTask: PropTypes.func.isRequired,
+  handleClearSelected: PropTypes.func.isRequired
 
 };
 
@@ -251,6 +255,10 @@ export default function EnhancedTable(props) {
     setSelected([]);
   };
 
+  const handleClearSelected = () => {
+    setSelected([]);
+  }
+
   const handleClick = (event, row) => {
     const selectedIndex = selected.indexOf(row);
     let newSelected = [];
@@ -293,7 +301,12 @@ export default function EnhancedTable(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} deleteList={selected} deleteTask={props.deleteTask} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          deleteList={selected}
+          deleteTask={props.deleteTask}
+          handleClearSelected={handleClearSelected}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -337,9 +350,9 @@ export default function EnhancedTable(props) {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.description}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.due}</TableCell>
+                      <TableCell align="right">{row.priority}</TableCell>
+                      <TableCell align="right">{row.tag}</TableCell>
                     </TableRow>
                   );
                 })}
