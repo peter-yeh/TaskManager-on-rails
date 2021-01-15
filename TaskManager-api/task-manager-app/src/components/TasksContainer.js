@@ -26,26 +26,11 @@ class TasksContainer extends Component {
     this.setState({ inputSearchValue: e.target.value });
   }
 
-  // createTask = (e) => {
-  //   if (e.key === 'Enter') {
-  //     axios.post('/api/v1/tasks', { task: { name: e.target.value } })
-  //       .then(response => {
-  //         const tasks = update(this.state.tasks, {
-  //           $splice: [[0, 0, response.data]]
-  //         })
-  //         this.setState({
-  //           tasks: tasks,
-  //           inputSearchValue: ''
-  //         })
-  //       })
-  //       .catch(error => console.log(error))
-  //   }
-  // }
-
-  updateTask = (e, id) => {
-    axios.put(`/api/v1/tasks/${id}`, { task: { done: e.target.checked } })
+  updateTask = (isDone, id) => {
+    axios.put(`/api/v1/tasks/${id}`, { task: { done: isDone } })
       .then(response => {
         const taskIndex = this.state.tasks.findIndex(x => x.id === response.data.id)
+        console.log("The isDone is: " + isDone);
         const tasks = update(this.state.tasks, {
           [taskIndex]: { $set: response.data }
         })
@@ -87,7 +72,10 @@ class TasksContainer extends Component {
           fullWidth />
 
 
-        <EnhancedTable taskList={this.state.tasks} deleteTask={this.deleteTask.bind(this)} />
+        <EnhancedTable
+          taskList={this.state.tasks}
+          deleteTask={this.deleteTask.bind(this)}
+          updateTask={this.updateTask.bind(this)} />
 
 
         {/* <div className="inputContainer">
