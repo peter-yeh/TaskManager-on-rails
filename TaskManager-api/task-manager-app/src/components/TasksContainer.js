@@ -94,7 +94,7 @@ class TasksContainer extends Component {
 
         {/* Add a icon for sorting by diff values */}
         <div className='fieldContainer'>
-          <TextField className='field'
+          <TextField
             label="Find anything in this table..."
             value={this.state.inputSearchValue}
             onChange={this.handleSearchChange}
