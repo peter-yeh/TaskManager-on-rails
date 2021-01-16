@@ -23,6 +23,10 @@ Matriculation no.: A0199769W
 
       `rails --version`
 
-1. Run `rails server` in the `TaskManager` folder
+1. `cd TaskManager-api`
 
-1. Go to http://localhost:3000/ to view and use the app
+1. `yarn install`
+
+1. `yarn --cwd task-manager-app start` (`npm` works as well).
+
+1. Go to `http://localhost:4000/`.
