@@ -10,6 +10,7 @@ class TasksContainer extends Component {
     super(props);
     this.state = {
       tasks: [],
+      originalTasks: [],
       inputSearchValue: '',
     };
   }
@@ -17,20 +18,48 @@ class TasksContainer extends Component {
   getTasks() {
     axios.get('/api/v1/tasks')
       .then(response => {
-        this.setState({ tasks: response.data })
+        this.setState({ tasks: response.data, originalTasks: response.data })
       })
       .catch(error => console.log(error))
   }
 
   handleSearchChange = (e) => {
     this.setState({ inputSearchValue: e.target.value });
+
+    if (e.target.value.trim() !== '') {
+      const tasks = this.state.originalTasks.filter(task =>
+        task.name.includes(e.target.value)
+        || this.nullableInclude(task.description, e.target.value)
+        || this.nullableInclude(task.due, e.target.value)
+        || this.nullableInclude(task.tag, e.target.value)
+        || this.nullableInclude(task.done, e.target.value)
+        || this.nullableInclude(task.priority, e.target.value))
+
+      this.setState({
+        tasks: tasks
+      })
+    }
+
+    else {
+      this.setState({
+        tasks: this.state.originalTasks
+      })
+    }
+  }
+
+  // a may be null
+  nullableInclude = (a, b) => {
+    if (a != null) {
+      return a.toString().includes(b);
+    } else {
+      return false;
+    }
   }
 
   updateTask = (isDone, id) => {
     axios.put(`/api/v1/tasks/${id}`, { task: { done: isDone } })
       .then(response => {
         const taskIndex = this.state.tasks.findIndex(x => x.id === response.data.id)
-        console.log("The isDone is: " + isDone);
         const tasks = update(this.state.tasks, {
           [taskIndex]: { $set: response.data }
         })
