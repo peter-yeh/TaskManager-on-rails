@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,7 +20,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
-import FilterListIcon from '@material-ui/icons/FilterList';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -115,17 +114,15 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+  {
+    color: '#FA9F42',
+    backgroundColor: '#721817',
+  },
   title: {
     flex: '1 1 100%',
+  },
+  flex: {
+    display: 'flex',
   },
 }));
 
@@ -150,7 +147,7 @@ const EnhancedTableToolbar = (props) => {
         )}
 
       {numSelected > 0 ? (
-        <div style={{ display: 'flex' }}>
+        <div className={classes.flex} >
           <Tooltip title="Delete">
             <IconButton
               aria-label="delete"
@@ -165,14 +162,12 @@ const EnhancedTableToolbar = (props) => {
             </IconButton>
           </Tooltip>
 
-          {/* // here is the magic */}
           <Tooltip title="Done">
             <IconButton
               aria-label="done"
               onClick={() => {
                 selectedList.forEach(element => {
                   updateTask(!element.done, element.id);
-                  console.log("The row is: " + element.id + element.done);
                 })
                 handleClearSelected();
               }} >
@@ -180,14 +175,9 @@ const EnhancedTableToolbar = (props) => {
             </IconButton>
           </Tooltip>
         </div>
-      ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )
-      }
+      ) :
+        <div>
+        </div>}
     </Toolbar >
   );
 };
@@ -274,8 +264,6 @@ export default function EnhancedTable(props) {
         selected.slice(selectedIndex + 1),
       );
     }
-
-    console.log("The selected item is: " + newSelected.toString())
 
     setSelected(newSelected);
   };
