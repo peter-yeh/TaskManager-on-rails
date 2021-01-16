@@ -93,52 +93,23 @@ class TasksContainer extends Component {
       <div>
 
         {/* Add a icon for sorting by diff values */}
-        <TextField className='matList'
-          label="Find anything in this table..."
-          value={this.state.inputSearchValue}
-          onChange={this.handleSearchChange}
-          variant="outlined"
-          fullWidth />
-
+        <div className='fieldContainer'>
+          <TextField className='field'
+            label="Find anything in this table..."
+            value={this.state.inputSearchValue}
+            onChange={this.handleSearchChange}
+            variant="outlined"
+            fullWidth />
+        </div>
 
         <EnhancedTable
           taskList={this.state.tasks}
           deleteTask={this.deleteTask.bind(this)}
           updateTask={this.updateTask.bind(this)} />
 
-
-        {/* <div className="inputContainer">
-          <input className="taskInput" type="text"
-            placeholder="Find anything in this table..." maxLength="50"
-            onKeyPress={this.createTask}
-            value={this.state.inputSearchValue}
-            onChange={this.handleSearchChange} />
-        </div> */}
-
-        {/* <div className="listWrapper">
-          <ul className="taskList">
-            {this.state.tasks.map((task) => {
-              return (
-                <li className="task" task={task} key={task.id}>
-                  <input className="taskCheckbox"
-                    type="checkbox"
-                    checked={task.done}
-                    onChange={(e) => this.updateTask(e, task.id)} />
-
-                  <label className="taskLabel">{task.name}</label>
-
-                  <span className="deleteTaskBtn" onClick={(e) => this.deleteTask(task.id)}>x</span>
-
-                </li>
-              )
-            })}
-          </ul>
-        </div> */}
-
       </div >
     )
   }
 }
-
 
 export default TasksContainer
