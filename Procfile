@@ -1,1 +1,1 @@
-api: PORT=3000 bundle exec rails server
+api PORT=3000 bundle exec rails server
