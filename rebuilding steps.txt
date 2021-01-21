@@ -47,5 +47,7 @@ npm install @material-ui/icons
 heroku create
 git remote
 git remote remove heroku
+git add .
+heroku buildpacks:add heroku/nodejs --index 1
+heroku buildpacks:add heroku/ruby --index 2
 git push heroku BranchHeroku
-
