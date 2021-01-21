@@ -1,0 +1,22 @@
+.container {
+	width: 90%;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+	border-radius: 5px;
+}
+
+.header {
+	color: black;
+	padding: 5px;
+	text-align: center;
+	font-family: Tahoma, sans-serif;
+}
+
+.fieldContainer {
+	margin: 24px 0px; /* top bottom, left right */
+}
+
+.field {
+	width: 90%;
+}

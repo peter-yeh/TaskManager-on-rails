@@ -1,0 +1,27 @@
+{
+  "name": "TaskManager-on-rails",
+  "version": "1.0.0",
+  "description": "My first web based app written with ruby on rails.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn --cwd task-manager-app install && yarn --cwd task-manager-app build",
+    "deploy": "cp -a task-manager-app/build/. public/",
+    "heroku-postbuild": "yarn build && yarn deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peter-yeh/TaskManager-on-rails.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peter-yeh/TaskManager-on-rails/issues"
+  },
+  "homepage": "https://github.com/peter-yeh/TaskManager-on-rails#readme"
+}
