@@ -44,3 +44,14 @@ npm install immutability-helper --save
 npm install @material-ui/core
 npm install @material-ui/icons
 
+heroku create
+git remote
+git remote remove heroku
+git add .
+heroku buildpacks:add heroku/nodejs --index 1
+heroku buildpacks:add heroku/ruby --index 2
+git push heroku BranchHeroku
+
+heroku run rake db:create // first run after creating the db
+heroku run rake db:migrate // to update database after adding a new row etc
+heroku run rake db:seed

@@ -1,7 +1,9 @@
+// This table is a heavily modified version from Material-ui table 
+// https://material-ui.com/components/tables/
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,8 +22,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
+import moment from 'moment';
+import {ITask} from './ITask';
 
-function descendingComparator(a, b, orderBy) {
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -31,14 +35,19 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
+type Order = 'asc' | 'desc';
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key,
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -47,17 +56,36 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Tasks ' },
-  { id: 'description', numeric: true, disablePadding: false, label: 'Description' },
-  { id: 'due', numeric: true, disablePadding: false, label: 'Due date (DD/MM/YYYY)' },
-  { id: 'priority', numeric: true, disablePadding: false, label: 'Priority' },
-  { id: 'tag', numeric: true, disablePadding: false, label: 'Tag' },
-];
+interface HeadCell {
+  disablePadding: boolean;
+  id: keyof ITask;
+  label: string;
+  numeric: boolean;
+}
 
-function EnhancedTableHead(props) {
+const headCells: HeadCell[] =
+  [
+    { id: 'name', numeric: false, disablePadding: true, label: 'Tasks ' },
+    { id: 'description', numeric: true, disablePadding: false, label: 'Description' },
+    { id: 'due', numeric: true, disablePadding: false, label: 'Due' },
+    { id: 'priority', numeric: false, disablePadding: false, label: 'Priority' },
+    { id: 'tag', numeric: true, disablePadding: false, label: 'Tag' },
+  ];
+
+
+interface EnhancedTableProps {
+  classes: ReturnType<typeof useStyles>;
+  numSelected: number;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ITask) => void;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: Order;
+  orderBy: string;
+  rowCount: number;
+}
+
+function EnhancedTableHead(props: EnhancedTableProps) {
   const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
+  const createSortHandler = (property: keyof ITask) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -98,35 +126,35 @@ function EnhancedTableHead(props) {
   );
 }
 
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
+const useToolbarStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(1),
+    },
+    highlight: {
+      color: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.light,
+    },
+    title: {
+      flex: '1 1 100%',
+    },
+    flex: {
+      display: 'flex',
+    },
 
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-  {
-    color: '#FA9F42',
-    backgroundColor: '#721817',
-  },
-  title: {
-    flex: '1 1 100%',
-  },
-  flex: {
-    display: 'flex',
-  },
-}));
+  }),
+);
 
-const EnhancedTableToolbar = (props) => {
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+  selectedList: any,
+  deleteTask: Function,
+  updateTask: Function,
+  handleClearSelected: Function
+}
+
+const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
   const { numSelected, selectedList, deleteTask, updateTask, handleClearSelected } = props;
 
@@ -145,14 +173,13 @@ const EnhancedTableToolbar = (props) => {
             List
           </Typography>
         )}
-
       {numSelected > 0 ? (
         <div className={classes.flex} >
           <Tooltip title="Delete">
             <IconButton
               aria-label="delete"
               onClick={() => {
-                selectedList.forEach(element => {
+                selectedList.forEach((element: { id: number; }) => {
                   deleteTask(element.id);
                 })
                 handleClearSelected();
@@ -166,7 +193,7 @@ const EnhancedTableToolbar = (props) => {
             <IconButton
               aria-label="done"
               onClick={() => {
-                selectedList.forEach(element => {
+                selectedList.forEach((element: { done: boolean; id: number; }) => {
                   updateTask(!element.done, element.id);
                 })
                 handleClearSelected();
@@ -178,66 +205,69 @@ const EnhancedTableToolbar = (props) => {
       ) :
         <div>
         </div>}
-    </Toolbar >
+    </Toolbar>
   );
 };
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  selectedList: PropTypes.array.isRequired,
-  deleteTask: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired,
-  handleClearSelected: PropTypes.func.isRequired
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+    },
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 750,
+    },
+    visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
+    },
+    rowStrikeThrough: {
+      textDecoration: 'line-through',
+      backgroundColor: '#FAFAFA',
+    },
+  }),
+);
 
-};
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  paper: {
-    width: '100%',
-    marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
-  },
-  rowStrikeThrough: {
-    textDecoration: 'line-through',
-    backgroundColor: '#FAFAFA',
-  },
-}));
+function convertPriority(value: any) {
+  switch (value) {
+    case 1: return "Low";
+    case 2: return "Medium";
+    case 3: return "High";
+    default: return "Medium";
+  }
+}
 
-export default function EnhancedTable(props) {
+export default function EnhancedTable(props: any) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('descriptions');
-  const [selected, setSelected] = React.useState([]);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof ITask>('description');
+  const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const rows = props.taskList;
+  const rows: any = props.taskList;
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof ITask) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n);
+      const newSelecteds = rows.map((n: any) => n);
       setSelected(newSelecteds);
       return;
     }
@@ -248,9 +278,10 @@ export default function EnhancedTable(props) {
     setSelected([]);
   }
 
-  const handleClick = (event, row) => {
+  const handleClick = (event: React.MouseEvent<unknown>, row: any) => {
+    event.stopPropagation();
     const selectedIndex = selected.indexOf(row);
-    let newSelected = [];
+    let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, row);
@@ -268,20 +299,22 @@ export default function EnhancedTable(props) {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
+  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (r) => selected.indexOf(r) !== -1;
+  const isSelected = (name: any) => selected.indexOf(name) !== -1;
+
+  const convertDate = (date: any) => moment(new Date(date)).fromNow().toString();
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -321,8 +354,12 @@ export default function EnhancedTable(props) {
                   return (
                     <TableRow
                       className={row.done ? classes.rowStrikeThrough : ''}
+                      onClick={(event) => {
+                        const selectedIndex = row.id;
+                        props.editTask(selectedIndex)
+                      }
+                      }
                       hover
-                      onClick={(event) => handleClick(event, row)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -331,6 +368,7 @@ export default function EnhancedTable(props) {
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
+                          onClick={(event) => handleClick(event, row)}
                           checked={isItemSelected}
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
@@ -339,8 +377,8 @@ export default function EnhancedTable(props) {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.description}</TableCell>
-                      <TableCell align="right">{row.due}</TableCell>
-                      <TableCell align="right">{row.priority}</TableCell>
+                      <TableCell align="right">{convertDate(row.due)}</TableCell>
+                      <TableCell align="left">{convertPriority(row.priority)}</TableCell>
                       <TableCell align="right">{row.tag}</TableCell>
                     </TableRow>
                   );

@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import moment from 'moment'
 
-import { Button, MenuItem, Snackbar, Slide, TextField } from '@material-ui/core'
+import { Button, MenuItem, Snackbar, TextField } from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
-import MuiAlert from '@material-ui/lab/Alert'
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+import { ITask } from './ITask'
 
 
 const priorities = [
@@ -32,56 +35,83 @@ const dones = [
   },
 ];
 
-function Alert(props) {
+function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-class FormContainer extends Component {
-  constructor(props) {
+const getCurrDate = () => moment(new Date()).format("YYYY-MM-DDTkk:mm");
+
+const convertDate = (date: string) => moment(new Date(date)).format("YYYY-MM-DDTkk:mm").toString();
+
+type MyProps = {
+  task?: ITask,
+  updateTaskList: Function
+};
+type MyState = {
+  id: number,
+  showSnackBar: boolean,
+  inputName: string,
+  inputDescription: string,
+  inputDue: string,
+  inputPriority: number,
+  inputTag: string,
+  inputDone: boolean,
+};
+class FormContainer extends Component<MyProps, MyState> {
+  constructor(props: any) {
     super(props);
-    this.state = {
+    this.state = props.task !== undefined ? {
       showSnackBar: false,
-      inputName: '',
-      inputDescription: '',
-      inputDue: '',
-      inputPriority: 2,
-      inputTag: '',
-      inputDone: false,
-      isTagCorrect: false
-    };
+      id: props.task.id,
+      inputName: props.task.name,
+      inputDescription: props.task.description,
+      inputDue: convertDate(props.task.due),
+      inputPriority: props.task.priority,
+      inputTag: props.task.tag,
+      inputDone: props.task.done
+    } : {
+        showSnackBar: false,
+        id: -1,
+        inputName: '',
+        inputDescription: '',
+        inputDue: getCurrDate(),
+        inputPriority: 2,
+        inputTag: '',
+        inputDone: false,
+      };
   }
 
-  handleNameChange = (e) => {
+  handleNameChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputName: e.target.value
     });
   }
 
-  handleDescriptionChange = (e) => {
+  handleDescriptionChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputDescription: e.target.value
     });
   }
 
-  handleDueChange = (e) => {
+  handleDueChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputDue: e.target.value
     });
   }
 
-  handlePriorityChange = (e) => {
+  handlePriorityChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputPriority: e.target.value
     });
   }
 
-  handleTagChange = (e) => {
+  handleTagChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputTag: e.target.value
     });
   }
 
-  handleDoneChange = (e) => {
+  handleDoneChange = (e: React.ChangeEvent<any>) => {
     this.setState({
       inputDone: e.target.value
     });
@@ -107,21 +137,52 @@ class FormContainer extends Component {
           showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          inputDue: new Date(),
+          inputDue: getCurrDate(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
         })
+        this.props.updateTaskList();
       })
       .catch(error => console.log(error))
 
+  }
+
+  updateTask = () => {
+    axios.put(`/api/v1/tasks/${this.state.id}`, {
+      task: {
+        name: this.state.inputName,
+        description: this.state.inputDescription,
+        due: this.state.inputDue,
+        priority: this.state.inputPriority,
+        tag: this.state.inputTag,
+        done: this.state.inputDone
+      }
+    })
+      .then(response => {
+        this.setState({
+          id: -1,
+          showSnackBar: true,
+          inputName: '',
+          inputDescription: '',
+          inputDue: getCurrDate(),
+          inputPriority: 2,
+          inputTag: '',
+          inputDone: false
+        })
+        this.props.updateTaskList();
+      })
+      .catch(error => console.log(error))
   }
 
   render() {
     return (
       <div>
 
-        <h1>Add a new Task</h1>
+        {this.props.task !== undefined
+          ? <h1>Edit Task</h1>
+          : <h1>Add a new Task</h1>
+        }
 
         <form
           noValidate autoComplete="off">
@@ -163,7 +224,6 @@ class FormContainer extends Component {
               select label="Priority"
               value={this.state.inputPriority}
               variant="filled"
-              helperText="Please select your priority"
               onChange={this.handlePriorityChange} >
               {priorities.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -180,22 +240,18 @@ class FormContainer extends Component {
               label="Tag"
               value={this.state.inputTag}
               onChange={this.handleTagChange}
-              error={this.state.isTagCorrect}
-              helperText={this.state.isTagCorrect ? '' : 'Tag should be separated by ; and not space'}
               variant="filled" />
           </div>
 
           <div className='fieldContainer'>
             <TextField
               className='field'
-              id="filled-select-done"
               select label="done"
-              value={this.state.inputDone}
+              value={+!!this.state.inputDone}
               variant="filled"
-              helperText="Task is done?"
               onChange={this.handleDoneChange}>
               {dones.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+                <MenuItem key={+!!option.value} value={+!!option.value}>
                   {option.label}
                 </MenuItem>
               ))}
@@ -207,8 +263,9 @@ class FormContainer extends Component {
           variant="contained"
           color="primary"
           startIcon={<SaveIcon />}
-          onClick={this.createTask}
-          // check also if the tag is in the right format before enabling the tag
+          onClick={this.state.id < 0
+            ? this.createTask
+            : this.updateTask}
           disabled={this.state.inputName.length === 0 ? true : false} >
           Save
         </Button>
