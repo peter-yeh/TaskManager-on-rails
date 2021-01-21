@@ -23,10 +23,10 @@ Matriculation no.: A0199769W
 
       `rails --version`
 
-1. `cd TaskManager-api`
-
 1. `yarn install`
 
 1. `yarn --cwd task-manager-app start` (`npm` works as well).
 
-1. Go to `http://localhost:4000/`.
+1. `rails s`
+
+1. Go to `http://localhost:3000/`.
