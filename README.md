@@ -25,7 +25,7 @@ Matriculation no.: A0199769W
 
 1. `yarn install`
 
-1. `yarn --cwd task-manager-app start` (`npm` works as well).
+1. `yarn --cwd task-manager-app start`
 
 1. `rails s`
 
