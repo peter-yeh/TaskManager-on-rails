@@ -24,11 +24,12 @@ Matriculation no.: A0199769W
       `rails --version`
 
 1. In the root directory of the app, run `cd task-manager-app`
-
 1. `yarn install`
-
 1. `yarn start`
 
-1. Open **another terminal in root dir of app** and run `rails s`
+1. Open **another terminal in root dir of app**
+1. `rails db:migrate`
+1. `rails db:seed` 
+1. and finally `rails s`
 
 1. Go to `http://localhost:3000/`
