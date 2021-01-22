@@ -139,6 +139,10 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     title: {
       flex: '1 1 100%',
     },
+    titleWhite: {
+      flex: '1 1 100%',
+      color: '#fff'
+    },
     flex: {
       display: 'flex',
     },
@@ -165,7 +169,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        <Typography className={classes.titleWhite} variant="subtitle1" component="div">
           {numSelected} selected
         </Typography>
       ) : (
@@ -404,6 +408,7 @@ export default function EnhancedTable(props: any) {
         />
       </Paper>
       <FormControlLabel
+        className="colorWhite"
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
