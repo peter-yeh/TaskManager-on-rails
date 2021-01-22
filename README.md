@@ -23,10 +23,12 @@ Matriculation no.: A0199769W
 
       `rails --version`
 
+1. In the root directory of the app, run `cd task-manager-app`
+
 1. `yarn install`
 
-1. `yarn --cwd task-manager-app start`
+1. `yarn start`
 
-1. `rails s`
+1. Open another terminal and run `rails s`
 
-1. Go to `http://localhost:3000/`.
+1. Go to `http://localhost:3000/`
