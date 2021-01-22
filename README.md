@@ -29,6 +29,6 @@ Matriculation no.: A0199769W
 
 1. `yarn start`
 
-1. Open another terminal and run `rails s`
+1. Open **another terminal** and run `rails s`
 
 1. Go to `http://localhost:3000/`
