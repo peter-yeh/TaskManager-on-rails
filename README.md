@@ -23,13 +23,14 @@ Matriculation no.: A0199769W
 
       `rails --version`
 
-1. In the root directory of the app, run `cd task-manager-app`
-1. `yarn install`
-1. `yarn start`
+1. In the root directory of the app, run `cd task-manager-app` to enter the directory which contains the react app
+1. Run `yarn install` to install all dependencies
+1. Run `yarn start` will open a link to the react app
+1. Leave the terminal running
 
-1. Open **another terminal in root dir of app**
-1. `rails db:migrate`
-1. `rails db:seed` 
-1. and finally `rails s`
+1. Now, open **another terminal** in the **root dir** of the project
+1. Run `rails db:migrate` to set up the database
+1. Run `rails db:seed` to put basic data into the app
+1. and finally `rails s` to start the server
 
 1. Go to `http://localhost:3000/`
