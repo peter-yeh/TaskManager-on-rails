@@ -36,7 +36,7 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <div className="container">
-          <div className="header">
+          <div className="header center">
             <h1>Tasks Manager</h1>
           </div>
           <TasksContainer />

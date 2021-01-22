@@ -23,7 +23,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import moment from 'moment';
-import {ITask} from './ITask';
+import { ITask } from './ITask';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -314,7 +314,9 @@ export default function EnhancedTable(props: any) {
 
   const isSelected = (name: any) => selected.indexOf(name) !== -1;
 
-  const convertDate = (date: any) => moment(new Date(date)).fromNow().toString();
+  const convertDate = (date: any) => {
+    return moment(date).fromNow();
+  }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 

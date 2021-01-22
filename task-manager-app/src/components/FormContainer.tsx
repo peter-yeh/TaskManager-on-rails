@@ -39,9 +39,11 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const getCurrDate = () => moment(new Date()).format("YYYY-MM-DDTkk:mm");
+const getCurrDateInLocale = () => moment().format("YYYY-MM-DDTkk:mm");
 
-const convertDate = (date: string) => moment(new Date(date)).format("YYYY-MM-DDTkk:mm").toString();
+const convertToUtc = (date: string) => moment(date).utc().format("YYYY-MM-DDTkk:mm");
+
+const convertToLocale = (date: string) => moment(date).format("YYYY-MM-DDTkk:mm");
 
 type MyProps = {
   task?: ITask,
@@ -65,7 +67,7 @@ class FormContainer extends Component<MyProps, MyState> {
       id: props.task.id,
       inputName: props.task.name,
       inputDescription: props.task.description,
-      inputDue: convertDate(props.task.due),
+      inputDue: convertToLocale(props.task.due),
       inputPriority: props.task.priority,
       inputTag: props.task.tag,
       inputDone: props.task.done
@@ -74,7 +76,7 @@ class FormContainer extends Component<MyProps, MyState> {
         id: -1,
         inputName: '',
         inputDescription: '',
-        inputDue: getCurrDate(),
+        inputDue: getCurrDateInLocale(),
         inputPriority: 2,
         inputTag: '',
         inputDone: false,
@@ -126,18 +128,19 @@ class FormContainer extends Component<MyProps, MyState> {
       task: {
         name: this.state.inputName,
         description: this.state.inputDescription,
-        due: this.state.inputDue,
+        due: convertToUtc(this.state.inputDue),
         priority: this.state.inputPriority,
         tag: this.state.inputTag,
         done: this.state.inputDone
       }
     })
       .then(response => {
+        console.log("The due is: " + this.state.inputDue);
         this.setState({
           showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          inputDue: getCurrDate(),
+          inputDue: getCurrDateInLocale(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
@@ -153,7 +156,7 @@ class FormContainer extends Component<MyProps, MyState> {
       task: {
         name: this.state.inputName,
         description: this.state.inputDescription,
-        due: this.state.inputDue,
+        due: convertToUtc(this.state.inputDue),
         priority: this.state.inputPriority,
         tag: this.state.inputTag,
         done: this.state.inputDone
@@ -165,7 +168,7 @@ class FormContainer extends Component<MyProps, MyState> {
           showSnackBar: true,
           inputName: '',
           inputDescription: '',
-          inputDue: getCurrDate(),
+          inputDue: getCurrDateInLocale(),
           inputPriority: 2,
           inputTag: '',
           inputDone: false
@@ -179,10 +182,12 @@ class FormContainer extends Component<MyProps, MyState> {
     return (
       <div>
 
-        {this.props.task !== undefined
-          ? <h1>Edit Task</h1>
-          : <h1>Add a new Task</h1>
-        }
+        <div className="header">
+          {this.props.task !== undefined
+            ? <h1>Edit Task</h1>
+            : <h1>Add a new Task</h1>
+          }
+        </div>
 
         <form
           noValidate autoComplete="off">
