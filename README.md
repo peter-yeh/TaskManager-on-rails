@@ -8,6 +8,8 @@ Name: Yeh Yu Chun
 
 Matriculation no.: A0199769W
 
+Try my app on: https://task-manager-petery.herokuapp.com/ 
+
 
 ## Getting started
 
